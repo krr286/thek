@@ -13,16 +13,32 @@ jobs:
       - name: Checkout main repo
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          path: main
           fetch-depth: 0
 
-      - name: Clone Karing dependencies
-        run: |
-          cd ..
-          git clone https://github.com/KaringX/vpn-service.git vpn-service
-          git clone https://github.com/KaringX/webdav_client.git webdav_client
-          git clone https://github.com/KaringX/android_package_manager.git android_package_manager
-          git clone https://github.com/KaringX/move_to_background.git move_to_background
+      - name: Checkout vpn-service
+        uses: actions/checkout@v4
+        with:
+          repository: KaringX/vpn-service
+          path: vpn-service
+
+      - name: Checkout webdav_client
+        uses: actions/checkout@v4
+        with:
+          repository: KaringX/webdav_client
+          path: webdav_client
+
+      - name: Checkout android_package_manager
+        uses: actions/checkout@v4
+        with:
+          repository: KaringX/android_package_manager
+          path: android_package_manager
+
+      - name: Checkout move_to_background
+        uses: actions/checkout@v4
+        with:
+          repository: KaringX/move_to_background
+          path: move_to_background
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -42,13 +58,15 @@ jobs:
           cache: true
 
       - name: Get dependencies
+        working-directory: main
         run: flutter pub get
 
       - name: Build APK
+        working-directory: main
         run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: thek-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: main/build/app/outputs/flutter-apk/app-release.apk
