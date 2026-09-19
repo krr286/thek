@@ -1,4 +1,4 @@
-name: Build THEK App
+name: Build THEK App 
 
 on:
   workflow_dispatch:
