@@ -10,16 +10,19 @@ jobs:
     name: Build Android APK
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main repo
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Init submodules
+      - name: Clone Karing dependencies
         run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive
+          cd ..
+          git clone https://github.com/KaringX/vpn-service.git vpn-service
+          git clone https://github.com/KaringX/webdav_client.git webdav_client
+          git clone https://github.com/KaringX/android_package_manager.git android_package_manager
+          git clone https://github.com/KaringX/move_to_background.git move_to_background
 
       - name: Setup Java
         uses: actions/setup-java@v4
